@@ -76,4 +76,16 @@ class Student
     end
   end
 
+  def first_X_students_in_grade_10(number)
+    sql = <<-SQL
+      SELECT * FROM students
+      WHERE students.grade = 10
+      GROUP BY(students.id)
+      LIMIT ?
+      SQL
+
+    DB[:conn].execute(sql, number).map do |row|
+      self.new_from_db(row)
+    end
+  end
 end
